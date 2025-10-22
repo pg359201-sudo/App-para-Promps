@@ -1,0 +1,5 @@
+{
+  "name": "Asistente de Prompts AI",
+  "description": "Una aplicación para ayudarte a crear prompts perfectos para modelos de IA de texto e imagen. Guíate paso a paso y genera prompts optimizados para obtener los mejores resultados.",
+  "requestFramePermissions": []
+}
