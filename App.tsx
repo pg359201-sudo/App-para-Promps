@@ -37,7 +37,7 @@ const App: React.FC = () => {
   const [savedPrompts, setSavedPrompts] = useState<SavedPromptItem[]>([]);
   
   const resultsRef = useRef<HTMLDivElement>(null);
-
+  
   useEffect(() => {
     try {
       const storedHistory = localStorage.getItem('promptHistory');
