@@ -3,7 +3,7 @@ import SparklesIcon from './icons/SparklesIcon';
 
 const Header: React.FC = () => {
   return (
-    <header className="text-center p-6">
+    <header className="text-center p-6 relative">
       <div className="flex items-center justify-center gap-3">
         <SparklesIcon className="w-10 h-10 text-teal-600" />
         <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-teal-600">

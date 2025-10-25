@@ -40,7 +40,7 @@ export const generateRawPrompt = (data: TextPromptData | ImagePromptData, type: 
 
 export const generateImprovedPrompts = async (
     rawPrompt: string,
-    generateAlternatives: boolean
+    generateAlternatives: boolean,
 ): Promise<{ mainPrompt: string; alternativePrompts: AlternativePrompts | null }> => {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const systemInstruction = `Eres un experto en "prompt engineering" para modelos de IA generativa. Tu tarea es mejorar el siguiente prompt de usuario para que sea más efectivo, claro y detallado.
@@ -95,13 +95,16 @@ export const generateImprovedPrompts = async (
 
     } catch (error) {
         console.error("Error generating improved prompts:", error);
-        throw new Error("No se pudieron generar los prompts mejorados. Verifica tu API Key e inténtalo de nuevo.");
+        if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
+            throw new Error("API key no válida. Por favor, verifica la variable de entorno en la configuración de tu proyecto.");
+        }
+        throw new Error("No se pudieron generar los prompts mejorados. Verifica tu conexión e inténtalo de nuevo.");
     }
 };
 
 export const refinePrompt = async (
     promptToRefine: string,
-    instruction: string
+    instruction: string,
 ): Promise<string> => {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const systemInstruction = `Eres un asistente experto en "prompt engineering". Tu tarea es modificar un prompt existente basándote en una instrucción específica del usuario. Aplica la instrucción de la forma más fiel y efectiva posible. Devuelve únicamente el prompt modificado, sin explicaciones adicionales.`;
@@ -119,6 +122,9 @@ export const refinePrompt = async (
         return response.text.trim();
     } catch (error) {
         console.error("Error refining prompt:", error);
-        throw new Error("No se pudo refinar el prompt. Verifica tu API Key e inténtalo de nuevo.");
+        if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
+            throw new Error("API key no válida. Por favor, verifica la variable de entorno en la configuración de tu proyecto.");
+        }
+        throw new Error("No se pudo refinar el prompt. Verifica tu conexión e inténtalo de nuevo.");
     }
 };
