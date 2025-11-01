@@ -58,7 +58,7 @@ const App: React.FC = () => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [rawPrompt, mainPrompt, error, isLoading]);
-
+  
   const addToHistory = (newItem: Omit<SavedPromptItem, 'id' | 'timestamp'>) => {
     setHistory(prev => {
       const newHistoryItem: SavedPromptItem = {
