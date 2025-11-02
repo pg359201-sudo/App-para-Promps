@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, Type } from "@google/genai";
 import { TextPromptData, ImagePromptData, PromptType, AlternativePrompts } from '../types';
 
@@ -42,11 +43,8 @@ export const generateImprovedPrompts = async (
     rawPrompt: string,
     generateAlternatives: boolean,
 ): Promise<{ mainPrompt: string; alternativePrompts: AlternativePrompts | null }> => {
-    const apiKey = process.env.API_KEY;
-    if (!apiKey) {
-      throw new Error("La variable de entorno API_KEY no está configurada.");
-    }
-    const ai = new GoogleGenAI({ apiKey });
+    // FIX: Aligned with guidelines to use process.env.API_KEY directly and removed unnecessary checks.
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const systemInstruction = `Eres un experto en "prompt engineering" para modelos de IA generativa. Tu tarea es mejorar el siguiente prompt de usuario para que sea más efectivo, claro y detallado.
     Analiza el prompt del usuario y genera una versión principal mejorada.
     Si se solicita, genera también tres versiones alternativas, cada una con un enfoque específico y claro:
@@ -110,11 +108,8 @@ export const refinePrompt = async (
     promptToRefine: string,
     instruction: string,
 ): Promise<string> => {
-    const apiKey = process.env.API_KEY;
-    if (!apiKey) {
-      throw new Error("La variable de entorno API_KEY no está configurada.");
-    }
-    const ai = new GoogleGenAI({ apiKey });
+    // FIX: Aligned with guidelines to use process.env.API_KEY directly and removed unnecessary checks.
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const systemInstruction = `Eres un asistente experto en "prompt engineering". Tu tarea es modificar un prompt existente basándote en una instrucción específica del usuario. Aplica la instrucción de la forma más fiel y efectiva posible. Devuelve únicamente el prompt modificado, sin explicaciones adicionales.`;
 
     const userPrompt = `Aquí está el prompt que quiero refinar:\n\n"${promptToRefine}"\n\nEsta es la instrucción para refinarlo:\n\n"${instruction}"`;

@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, Type } from "@google/genai";
 import { TextPromptData, ImagePromptData, PromptType, AlternativePrompts } from '../types';
 
@@ -42,13 +43,8 @@ export const generateImprovedPrompts = async (
     rawPrompt: string,
     generateAlternatives: boolean,
 ): Promise<{ mainPrompt: string; alternativePrompts: AlternativePrompts | null }> => {
-    // FIX: Switched from import.meta.env.VITE_API_KEY to process.env.API_KEY to align with coding guidelines.
-    const apiKey = process.env.API_KEY;
-    if (!apiKey) {
-      // FIX: Updated error message to reference the correct environment variable name.
-      throw new Error("La variable de entorno API_KEY no está configurada.");
-    }
-    const ai = new GoogleGenAI({ apiKey });
+    // FIX: Switched to process.env.API_KEY and removed getApiKey function to fix TypeScript error and align with guidelines.
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const systemInstruction = `Eres un experto en "prompt engineering" para modelos de IA generativa. Tu tarea es mejorar el siguiente prompt de usuario para que sea más efectivo, claro y detallado.
     Analiza el prompt del usuario y genera una versión principal mejorada.
     Si se solicita, genera también tres versiones alternativas, cada una con un enfoque específico y claro:
@@ -102,7 +98,6 @@ export const generateImprovedPrompts = async (
     } catch (error) {
         console.error("Error generating improved prompts:", error);
         if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
-            // FIX: Updated error message to be more generic and helpful.
             throw new Error("API key no válida. Por favor, verifica la clave en tus variables de entorno.");
         }
         throw new Error("No se pudieron generar los prompts mejorados. Verifica tu conexión e inténtalo de nuevo.");
@@ -113,13 +108,8 @@ export const refinePrompt = async (
     promptToRefine: string,
     instruction: string,
 ): Promise<string> => {
-    // FIX: Switched from import.meta.env.VITE_API_KEY to process.env.API_KEY to align with coding guidelines.
-    const apiKey = process.env.API_KEY;
-    if (!apiKey) {
-        // FIX: Updated error message to reference the correct environment variable name.
-        throw new Error("La variable de entorno API_KEY no está configurada.");
-    }
-    const ai = new GoogleGenAI({ apiKey });
+    // FIX: Switched to process.env.API_KEY to align with guidelines.
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const systemInstruction = `Eres un asistente experto en "prompt engineering". Tu tarea es modificar un prompt existente basándote en una instrucción específica del usuario. Aplica la instrucción de la forma más fiel y efectiva posible. Devuelve únicamente el prompt modificado, sin explicaciones adicionales.`;
 
     const userPrompt = `Aquí está el prompt que quiero refinar:\n\n"${promptToRefine}"\n\nEsta es la instrucción para refinarlo:\n\n"${instruction}"`;
@@ -136,7 +126,6 @@ export const refinePrompt = async (
     } catch (error) {
         console.error("Error refining prompt:", error);
         if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
-            // FIX: Updated error message to be more generic and helpful.
             throw new Error("API key no válida. Por favor, verifica la clave en tus variables de entorno.");
         }
         throw new Error("No se pudo refinar el prompt. Verifica tu conexión e inténtalo de nuevo.");
