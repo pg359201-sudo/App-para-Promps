@@ -42,10 +42,10 @@ export const generateImprovedPrompts = async (
     rawPrompt: string,
     generateAlternatives: boolean,
 ): Promise<{ mainPrompt: string; alternativePrompts: AlternativePrompts | null }> => {
-    // FIX: Use process.env.API_KEY as per guidelines.
+    // FIX: Use process.env.API_KEY as per the guidelines to fix 'env' does not exist on type 'ImportMeta' error.
     const apiKey = process.env.API_KEY;
     if (!apiKey) {
-      // FIX: Updated error message for API_KEY.
+      // FIX: Updated error message to refer to API_KEY.
       throw new Error("La variable de entorno API_KEY no está configurada.");
     }
     const ai = new GoogleGenAI({ apiKey });
@@ -102,7 +102,6 @@ export const generateImprovedPrompts = async (
     } catch (error) {
         console.error("Error generating improved prompts:", error);
         if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
-            // FIX: Updated error message for API_KEY.
             throw new Error("API key no válida. Por favor, verifica la clave en tus variables de entorno.");
         }
         throw new Error("No se pudieron generar los prompts mejorados. Verifica tu conexión e inténtalo de nuevo.");
@@ -113,10 +112,10 @@ export const refinePrompt = async (
     promptToRefine: string,
     instruction: string,
 ): Promise<string> => {
-    // FIX: Use process.env.API_KEY as per guidelines.
+    // FIX: Use process.env.API_KEY as per the guidelines to fix 'env' does not exist on type 'ImportMeta' error.
     const apiKey = process.env.API_KEY;
     if (!apiKey) {
-      // FIX: Updated error message for API_KEY.
+      // FIX: Updated error message to refer to API_KEY.
       throw new Error("La variable de entorno API_KEY no está configurada.");
     }
     const ai = new GoogleGenAI({ apiKey });
@@ -136,7 +135,6 @@ export const refinePrompt = async (
     } catch (error) {
         console.error("Error refining prompt:", error);
         if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
-            // FIX: Updated error message for API_KEY.
             throw new Error("API key no válida. Por favor, verifica la clave en tus variables de entorno.");
         }
         throw new Error("No se pudo refinar el prompt. Verifica tu conexión e inténtalo de nuevo.");
