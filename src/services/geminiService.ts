@@ -1,7 +1,7 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { TextPromptData, ImagePromptData, PromptType, AlternativePrompts } from '../types';
 
-// FIX: Aligned with guidelines to use process.env.API_KEY directly.
+// FIX: Aligned with guidelines to use process.env.API_KEY directly, which resolves the TypeScript error with import.meta.env.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 const model = 'gemini-2.5-flash';
 
@@ -86,9 +86,10 @@ export const generateImprovedPrompts = async (
             },
         });
 
-        const jsonText = response.text?.trim();
+        // FIX: The `text` property on GenerateContentResponse is a non-optional string.
+        const jsonText = response.text.trim();
         if (!jsonText) {
-            throw new Error("La respuesta de la IA no contiene texto JSON válido.");
+            throw new Error("La respuesta de la IA llegó vacía. Inténtalo de nuevo.");
         }
         const result = JSON.parse(jsonText);
 
@@ -122,7 +123,8 @@ export const refinePrompt = async (
                 systemInstruction,
             },
         });
-        return response.text?.trim() ?? '';
+        // FIX: The `text` property on GenerateContentResponse is a non-optional string.
+        return response.text.trim();
     } catch (error) {
         console.error("Error refining prompt:", error);
         if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
