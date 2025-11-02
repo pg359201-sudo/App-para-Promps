@@ -68,6 +68,7 @@ const PromptCard: React.FC<{
               onClick={() => setIsRefineModalOpen(true)}
               className="p-2 rounded-md bg-stone-200 hover:bg-teal-100 text-stone-500 hover:text-teal-600 transition"
               aria-label="Refinar prompt"
+              title="Refinar este prompt"
             >
               <SparklesIcon className="w-5 h-5" />
             </button>
@@ -75,6 +76,7 @@ const PromptCard: React.FC<{
               onClick={handleDownload}
               className="p-2 rounded-md bg-stone-200 hover:bg-stone-300 text-stone-500 hover:text-stone-800 transition"
               aria-label="Descargar prompt"
+              title="Descargar este prompt"
             >
               <DownloadIcon className="w-5 h-5" />
             </button>
@@ -82,6 +84,7 @@ const PromptCard: React.FC<{
               onClick={handleCopy}
               className="p-2 rounded-md bg-stone-200 hover:bg-stone-300 text-stone-500 hover:text-stone-800 transition"
               aria-label="Copiar prompt"
+              title="Copiar este prompt"
             >
               {copied ? <CheckIcon className="w-5 h-5 text-green-500" /> : <ClipboardIcon className="w-5 h-5" />}
             </button>

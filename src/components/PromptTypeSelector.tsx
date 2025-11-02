@@ -10,7 +10,7 @@ interface PromptTypeSelectorProps {
 const PromptTypeSelector: React.FC<PromptTypeSelectorProps> = ({ onSelect }) => {
   return (
     <div className="p-3 rounded-lg bg-white border border-stone-200">
-      <h2 className="text-lg font-semibold mb-3 text-center text-teal-600">1. ¿Qué tipo de prompt quieres crear?</h2>
+      <h2 className="text-lg font-semibold mb-3 text-center text-teal-600">1. ¿Qué tipo de prompt querés crear?</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <button
           onClick={() => onSelect(PromptType.TEXT)}
