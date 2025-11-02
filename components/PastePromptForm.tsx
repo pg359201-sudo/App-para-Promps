@@ -21,7 +21,7 @@ const PastePromptForm: React.FC<PastePromptFormProps> = ({ onStartRefine }) => {
 
   return (
     <div className="p-4 rounded-lg bg-white border border-stone-200">
-      <h2 className="text-xl font-semibold mb-4 text-center text-teal-600">¿Ya tienes un prompt?</h2>
+      <h2 className="text-xl font-semibold mb-4 text-center text-teal-600">¿Ya tenés un prompt?</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="pastedPrompt" className="sr-only">
