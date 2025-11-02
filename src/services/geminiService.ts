@@ -1,7 +1,8 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { TextPromptData, ImagePromptData, PromptType, AlternativePrompts } from '../types';
 
-// FIX: Aligned with guidelines to use process.env.API_KEY directly, which resolves the TypeScript error with import.meta.env.
+// Aligned with guidelines to use process.env.API_KEY. 
+// The vite.config.ts file has been updated to make this work in a browser environment.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 const model = 'gemini-2.5-flash';
 
@@ -85,13 +86,13 @@ export const generateImprovedPrompts = async (
                 responseSchema: responseSchema,
             },
         });
-
-        // FIX: The `text` property on GenerateContentResponse is a non-optional string.
-        const jsonText = response.text.trim();
+        
+        // This defensive check solves the TypeScript error 'response.text' is possibly 'undefined'.
+        const jsonText = response.text;
         if (!jsonText) {
             throw new Error("La respuesta de la IA llegó vacía. Inténtalo de nuevo.");
         }
-        const result = JSON.parse(jsonText);
+        const result = JSON.parse(jsonText.trim());
 
         return {
             mainPrompt: result.mainPrompt,
@@ -123,8 +124,13 @@ export const refinePrompt = async (
                 systemInstruction,
             },
         });
-        // FIX: The `text` property on GenerateContentResponse is a non-optional string.
-        return response.text.trim();
+        
+        // This defensive check solves the TypeScript error 'response.text' is possibly 'undefined'.
+        const text = response.text;
+        if (typeof text !== 'string') {
+            throw new Error("La respuesta de la IA no pudo ser procesada. Inténtalo de nuevo.");
+        }
+        return text.trim();
     } catch (error) {
         console.error("Error refining prompt:", error);
         if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
