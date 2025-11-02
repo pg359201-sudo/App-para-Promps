@@ -1,7 +1,8 @@
 import { GoogleGenAI, Type } from "@google/genai";
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 // Esta es una función serverless de Vercel
-export default async function handler(req, res) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
@@ -57,7 +58,10 @@ export default async function handler(req, res) {
             },
         });
 
-        const jsonText = response.text.trim();
+        const jsonText = response.text?.trim();
+        if (!jsonText) {
+            throw new Error("Received empty text response from Gemini.");
+        }
         const result = JSON.parse(jsonText);
         
         res.status(200).json({
@@ -67,6 +71,7 @@ export default async function handler(req, res) {
 
     } catch (error) {
         console.error("Error in /api/generate:", error);
-        res.status(500).json({ error: "Failed to generate improved prompts.", details: error.message });
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        res.status(500).json({ error: "Failed to generate improved prompts.", details: errorMessage });
     }
 }

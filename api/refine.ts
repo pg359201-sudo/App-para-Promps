@@ -1,6 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-export default async function handler(req, res) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
@@ -27,12 +28,18 @@ export default async function handler(req, res) {
             },
         });
 
+        const text = response.text;
+        if (text === undefined || text === null) {
+            throw new Error("Received empty text response from Gemini.");
+        }
+
         // Set content type to text/plain
         res.setHeader('Content-Type', 'text/plain');
-        res.status(200).send(response.text.trim());
+        res.status(200).send(text.trim());
 
     } catch (error) {
         console.error("Error in /api/refine:", error);
-        res.status(500).json({ error: "Failed to refine prompt.", details: error.message });
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        res.status(500).json({ error: "Failed to refine prompt.", details: errorMessage });
     }
 }
