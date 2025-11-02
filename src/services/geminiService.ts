@@ -1,4 +1,5 @@
 
+
 import { GoogleGenAI, Type } from "@google/genai";
 import { TextPromptData, ImagePromptData, PromptType, AlternativePrompts } from '../types';
 
@@ -43,7 +44,7 @@ export const generateImprovedPrompts = async (
     rawPrompt: string,
     generateAlternatives: boolean,
 ): Promise<{ mainPrompt: string; alternativePrompts: AlternativePrompts | null }> => {
-    // FIX: Switched to process.env.API_KEY and removed getApiKey function to fix TypeScript error and align with guidelines.
+    // FIX: Aligned with guidelines to use process.env.API_KEY directly. This also resolves the TypeScript error with import.meta.env.
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const systemInstruction = `Eres un experto en "prompt engineering" para modelos de IA generativa. Tu tarea es mejorar el siguiente prompt de usuario para que sea más efectivo, claro y detallado.
     Analiza el prompt del usuario y genera una versión principal mejorada.
@@ -108,7 +109,7 @@ export const refinePrompt = async (
     promptToRefine: string,
     instruction: string,
 ): Promise<string> => {
-    // FIX: Switched to process.env.API_KEY to align with guidelines.
+    // FIX: Aligned with guidelines to use process.env.API_KEY directly.
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const systemInstruction = `Eres un asistente experto en "prompt engineering". Tu tarea es modificar un prompt existente basándote en una instrucción específica del usuario. Aplica la instrucción de la forma más fiel y efectiva posible. Devuelve únicamente el prompt modificado, sin explicaciones adicionales.`;
 
