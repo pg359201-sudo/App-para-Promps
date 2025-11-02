@@ -1,8 +1,8 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { TextPromptData, ImagePromptData, PromptType, AlternativePrompts } from '../types';
 
-// Aligned with guidelines to use process.env.API_KEY. 
-// The vite.config.ts file has been updated to make this work in a browser environment.
+// Aligned with guidelines to use process.env.API_KEY.
+// The vite.config.ts file and @types/node in package.json make this work.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 const model = 'gemini-2.5-flash';
 
@@ -86,8 +86,7 @@ export const generateImprovedPrompts = async (
                 responseSchema: responseSchema,
             },
         });
-        
-        // This defensive check solves the TypeScript error 'response.text' is possibly 'undefined'.
+
         const jsonText = response.text;
         if (!jsonText) {
             throw new Error("La respuesta de la IA llegó vacía. Inténtalo de nuevo.");
@@ -125,10 +124,9 @@ export const refinePrompt = async (
             },
         });
         
-        // This defensive check solves the TypeScript error 'response.text' is possibly 'undefined'.
         const text = response.text;
-        if (typeof text !== 'string') {
-            throw new Error("La respuesta de la IA no pudo ser procesada. Inténtalo de nuevo.");
+        if (typeof text !== 'string' || text.trim() === '') {
+            throw new Error("La respuesta de la IA no pudo ser procesada o llegó vacía. Inténtalo de nuevo.");
         }
         return text.trim();
     } catch (error) {
