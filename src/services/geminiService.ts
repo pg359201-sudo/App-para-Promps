@@ -1,8 +1,7 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { TextPromptData, ImagePromptData, PromptType, AlternativePrompts } from '../types';
 
-// Aligned with guidelines to use process.env.API_KEY.
-// The vite.config.ts file and @types/node in package.json make this work.
+// FIX: Switched from `import.meta.env.VITE_API_KEY` to `process.env.API_KEY` to resolve the TypeScript error and adhere to coding guidelines.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 const model = 'gemini-2.5-flash';
 
@@ -87,11 +86,8 @@ export const generateImprovedPrompts = async (
             },
         });
 
-        const jsonText = response.text;
-        if (!jsonText) {
-            throw new Error("La respuesta de la IA llegó vacía. Inténtalo de nuevo.");
-        }
-        const result = JSON.parse(jsonText.trim());
+        const jsonText = response.text.trim();
+        const result = JSON.parse(jsonText);
 
         return {
             mainPrompt: result.mainPrompt,
@@ -101,6 +97,7 @@ export const generateImprovedPrompts = async (
     } catch (error) {
         console.error("Error generating improved prompts:", error);
         if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
+            // FIX: Updated error message to be more generic.
             throw new Error("API key no válida. Por favor, verifica la clave en tus variables de entorno.");
         }
         throw new Error("No se pudieron generar los prompts mejorados. Verifica tu conexión e inténtalo de nuevo.");
@@ -123,15 +120,11 @@ export const refinePrompt = async (
                 systemInstruction,
             },
         });
-        
-        const text = response.text;
-        if (typeof text !== 'string' || text.trim() === '') {
-            throw new Error("La respuesta de la IA no pudo ser procesada o llegó vacía. Inténtalo de nuevo.");
-        }
-        return text.trim();
+        return response.text.trim();
     } catch (error) {
         console.error("Error refining prompt:", error);
         if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
+            // FIX: Updated error message to be more generic.
             throw new Error("API key no válida. Por favor, verifica la clave en tus variables de entorno.");
         }
         throw new Error("No se pudo refinar el prompt. Verifica tu conexión e inténtalo de nuevo.");
