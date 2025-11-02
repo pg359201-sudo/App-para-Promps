@@ -1,9 +1,7 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { TextPromptData, ImagePromptData, PromptType, AlternativePrompts } from '../types';
 
-// FIX: Per coding guidelines, the API key must be obtained exclusively from `process.env.API_KEY`.
-// This resolves the TypeScript error and aligns with the requirement that the API key is pre-configured
-// in the execution environment.
+// FIX: Aligned with guidelines to use process.env.API_KEY directly, which resolves the `import.meta.env` error.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 const model = 'gemini-2.5-flash';
 
