@@ -1,7 +1,6 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { TextPromptData, ImagePromptData, PromptType, AlternativePrompts } from '../types';
 
-// FIX: Switched from `import.meta.env.VITE_API_KEY` to `process.env.API_KEY` to resolve the TypeScript error and adhere to coding guidelines.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 const model = 'gemini-2.5-flash';
 
@@ -97,7 +96,6 @@ export const generateImprovedPrompts = async (
     } catch (error) {
         console.error("Error generating improved prompts:", error);
         if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
-            // FIX: Updated error message to be more generic.
             throw new Error("API key no válida. Por favor, verifica la clave en tus variables de entorno.");
         }
         throw new Error("No se pudieron generar los prompts mejorados. Verifica tu conexión e inténtalo de nuevo.");
@@ -124,7 +122,6 @@ export const refinePrompt = async (
     } catch (error) {
         console.error("Error refining prompt:", error);
         if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
-            // FIX: Updated error message to be more generic.
             throw new Error("API key no válida. Por favor, verifica la clave en tus variables de entorno.");
         }
         throw new Error("No se pudo refinar el prompt. Verifica tu conexión e inténtalo de nuevo.");
