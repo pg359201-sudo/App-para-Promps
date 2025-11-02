@@ -45,7 +45,7 @@ export const generateImprovedPrompts = async (
     // FIX: Use process.env.API_KEY as per guidelines.
     const apiKey = process.env.API_KEY;
     if (!apiKey) {
-      // FIX: Updated error message to reflect the change to process.env.API_KEY.
+      // FIX: Updated error message for API_KEY.
       throw new Error("La variable de entorno API_KEY no está configurada.");
     }
     const ai = new GoogleGenAI({ apiKey });
@@ -102,7 +102,7 @@ export const generateImprovedPrompts = async (
     } catch (error) {
         console.error("Error generating improved prompts:", error);
         if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
-            // FIX: Updated error message to reflect the change to process.env.API_KEY.
+            // FIX: Updated error message for API_KEY.
             throw new Error("API key no válida. Por favor, verifica la clave en tus variables de entorno.");
         }
         throw new Error("No se pudieron generar los prompts mejorados. Verifica tu conexión e inténtalo de nuevo.");
@@ -116,8 +116,8 @@ export const refinePrompt = async (
     // FIX: Use process.env.API_KEY as per guidelines.
     const apiKey = process.env.API_KEY;
     if (!apiKey) {
-        // FIX: Updated error message to reflect the change to process.env.API_KEY.
-        throw new Error("La variable de entorno API_KEY no está configurada.");
+      // FIX: Updated error message for API_KEY.
+      throw new Error("La variable de entorno API_KEY no está configurada.");
     }
     const ai = new GoogleGenAI({ apiKey });
     const systemInstruction = `Eres un asistente experto en "prompt engineering". Tu tarea es modificar un prompt existente basándote en una instrucción específica del usuario. Aplica la instrucción de la forma más fiel y efectiva posible. Devuelve únicamente el prompt modificado, sin explicaciones adicionales.`;
@@ -136,7 +136,7 @@ export const refinePrompt = async (
     } catch (error) {
         console.error("Error refining prompt:", error);
         if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY'))) {
-            // FIX: Updated error message to reflect the change to process.env.API_KEY.
+            // FIX: Updated error message for API_KEY.
             throw new Error("API key no válida. Por favor, verifica la clave en tus variables de entorno.");
         }
         throw new Error("No se pudo refinar el prompt. Verifica tu conexión e inténtalo de nuevo.");
