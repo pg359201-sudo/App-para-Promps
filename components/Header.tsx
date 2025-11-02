@@ -11,7 +11,7 @@ const Header: React.FC = () => {
         </h1>
       </div>
       <p className="mt-2 text-lg text-stone-600">
-        Creaá prompts perfectos para modelos de texto e imagen
+        Creá prompts perfectos para modelos de texto e imagen
       </p>
     </header>
   );
